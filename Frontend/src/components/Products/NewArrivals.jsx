@@ -1,4 +1,5 @@
 import React from 'react'
+import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 
 const NewArrivals = () => {
 
@@ -88,8 +89,15 @@ const NewArrivals = () => {
         <div className='container m-auto text-center mb-10 relative'>
             <h2 className='texxt-3xl font-bold mb-4'>Explore New Arrivals</h2>
             <p className='text-lg text-gray-600 mb-8'>Discover the latest styles straight off the runway, freshly added to keep your wardrobe on the cutting edge of fashion.</p>
-
-            
+            {/* Scroll Buttons */}
+            <div className="absolute right-0 bottom-[-30px] flex spae-x-2">
+                <button className='p-2 rounded border bg-white text-black'>
+                    <FiChevronLeft className="text-2xl" />
+                </button>
+                <button className='p-2 rounded border bg-white text-black'>
+                    <FiChevronRight className="text-2xl" />
+                </button>
+            </div>
         </div>
     </section>
   )
