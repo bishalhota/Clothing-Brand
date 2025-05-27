@@ -7,7 +7,7 @@ const NewArrivals = () => {
   const scrollRef = useRef(null);
   const [isDragging, setisDragging] = useState(false);
   const [startX, setStartX] = useState(0);
-  const [scrollLeft, setScrollLeft] = useState(false);
+  // const [scrollLeft, setScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
 
@@ -96,31 +96,28 @@ const NewArrivals = () => {
     scrollRef.current.scrollBy({ left: scrollAmount, behavior: "smooth" });
   };
 
-  const updateScrollButtons = () => {
+   const updateScrollButtons = () => {
     const container = scrollRef.current;
-
     if (container) {
-      const leftScroll = container.scollLeft;
-      const rightScrollable =
-        container.scrollWidth > leftScroll + container.clientWidth;
-      setCanScrollLeft(leftScroll > 0);
-      setCanScrollRight(rightScrollable);
+      const leftScroll = container.scrollLeft;
+      const maxScrollLeft = container.scrollWidth - container.clientWidth;
+      setCanScrollLeft(leftScroll > 10); // enable if scrolled more than 10px
+      setCanScrollRight(leftScroll < maxScrollLeft - 10);
     }
-
-    console.log(
-      container.scrollLeft,
-      container.scrollWidth,
-      container.clientWidth
-    );
   };
 
   useEffect(() => {
     const container = scrollRef.current;
     if (container) {
-      container.addEventListener("scroll", updateScrollButtons());
+      container.addEventListener("scroll", updateScrollButtons);
       updateScrollButtons();
     }
-  });
+    return () => {
+      if (container) {
+        container.removeEventListener("scroll", updateScrollButtons);
+      }
+    };
+  }, []);
   
 
   return (
@@ -132,31 +129,23 @@ const NewArrivals = () => {
           keep your wardrobe on the cutting edge of fashion.
         </p>
         {/* Scroll Buttons */}
-        <div className="absolute right-0 bottom-[-30px] flex spae-x-2">
+        <div className="absolute right-0 bottom-[-30px] flex space-x-2">
           <button
-            onClick={() => {
-              scroll("left");
-              console.log(canScrollLeft);
-            }}
-            // disabled={!canScrollLeft}
-            className={`p-2 rounded border ${
-              !canScrollLeft
-                ? "bg-white text-black"
-                : "bg-gray-200 text-gray-400 cursor-not-allowed"
-            }`}
+            onClick={() => 
+              scroll("left")
+              
+            }
+            disabled={!canScrollLeft}
+            className={`p-2 rounded border ${canScrollLeft ? "bg-white text-black": "bg-gray-200 text-gray-400 cursor-not-allowed"}`}
           >
             <FiChevronLeft className="text-2xl" />
           </button>
           <button
-            onClick={() => {
-              scroll("right");
-              console.log(canScrollRight);
-            }}
-            className={`p-2 rounded border ${
-              !canScrollRight
-                ? "bg-white text-black"
-                : "bg-gray-200 text-gray-400 cursor-not-allowed"
-            }`}
+            onClick={() => 
+              scroll("right")
+            }
+            disabled={!canScrollRight}
+            className={`p-2 rounded border ${canScrollRight ? "bg-white text-black" : "bg-gray-200 text-gray-400 cursor-not-allowed"}`}
           >
             <FiChevronRight className="text-2xl" />
           </button>
