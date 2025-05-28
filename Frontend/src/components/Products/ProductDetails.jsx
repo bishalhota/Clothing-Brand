@@ -27,6 +27,13 @@ const SelectedProduct = {
 const ProductDetails = () => {
 
     const [mainImage, setMainImage] = useState("");
+    const [selectedSize, setSelectedSize] = useState("");
+    const [selectedColor, setSelectedColor] = useState("");
+    const [quantity, setQuantity] = useState(1);
+    const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+
+
+
     useEffect(() => {
         if(SelectedProduct?.images?.length>0){
             setMainImage(SelectedProduct.images[0].url);
@@ -43,7 +50,7 @@ const ProductDetails = () => {
                 key={index}
                 src={image.url}
                 alt={image.altText || `Thumbnail ${index}`}
-                className="w-20 h-20 object-cover rounded-lg cursor-pointer border"
+                className={`w-20 h-20 object-cover rounded-lg cursor-pointer border ${mainImage === image.url ? "border-black":"border-gray-300"}`}
                 onClick={() =>setMainImage(image.url)}
               />
             ))}
@@ -65,7 +72,8 @@ const ProductDetails = () => {
                 key={index}
                 src={image.url}
                 alt={image.altText || `Thumbnail ${index}`}
-                className="w-20 h-20 object-cover rounded-lg cursor-pointer border"
+                className={`w-20 h-20 object-cover rounded-lg cursor-pointer border ${mainImage === image.url ? "border-black":"border-gray-300"}`}
+                onClick={() => setMainImage(image.url)}
               />
             ))}
           </div>
@@ -88,10 +96,13 @@ const ProductDetails = () => {
                 {SelectedProduct.colors.map((color) => (
                   <button
                     key={color}
-                    className="w-8 h-8 rounded-full border"
+                    onClick={() => setSelectedColor(color)}
+                    className={`w-8 h-8 rounded-full border-[3.5px] cursor-pointer ${selectedColor === color ?
+                        "border-black":"border-gray-300"
+                    }`}
                     style={{
                       backgroundColor: color.toLocaleLowerCase(),
-                      filter: "brightness(0.8)",
+                      filter: "brightness(0.5)",
                     }}
                   ></button>
                 ))}
@@ -102,7 +113,9 @@ const ProductDetails = () => {
                 <p className="text-gray-700 ">Size:</p>
                 <div className="flex gap-2 mt-2">
                     {SelectedProduct.sizes.map((size)=>(
-                        <button key={size} className="px-4 py-2 rounded border">
+                        <button key={size}
+                        onClick={() => setSelectedSize(size)}
+                        className={`px-4 py-2 rounded border-[2px] cursor-pointer ${selectedSize === size ? "border-black bg-gray-200" : "border-gray-300 bg-white"}`}>
                             {size}
                         </button>
                     ))}
