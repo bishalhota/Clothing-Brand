@@ -117,7 +117,7 @@ const NewArrivals = () => {
   const handleMouseDown = (e) => {
     setisDragging(true);
     setStartX(e.pageX - scrollRef.current.offsetLeft);
-    setScrollLeft(scrollRef.current.scrollLeft); // ✅ Correct: we're tracking the position for dragging
+    setScrollLeft(scrollRef.current.scrollLeft); // 
 
   }
 
@@ -137,6 +137,7 @@ const NewArrivals = () => {
     if (container) {
       container.addEventListener("scroll", updateScrollButtons);
       updateScrollButtons();
+      return () => container.removeEventListener("scroll", updateScrollButtons);
     }
     return () => {
       if (container) {
@@ -147,7 +148,7 @@ const NewArrivals = () => {
   
 
   return (
-    <section>
+    <section className="py-16 px-4 lg:px-0">
       <div className="container m-auto text-center mb-10 relative">
         <h2 className="texxt-3xl font-bold mb-4">Explore New Arrivals</h2>
         <p className="text-lg text-gray-600 mb-8">
