@@ -7,7 +7,8 @@ const NewArrivals = () => {
   const scrollRef = useRef(null);
   const [isDragging, setisDragging] = useState(false);
   const [startX, setStartX] = useState(0);
-  // const [scrollLeft, setScrollLeft] = useState(false);
+  const [scrollLeft, setScrollLeft] = useState(0); // initialize with 0 instead of false
+
   const [canScrollRight, setCanScrollRight] = useState(true);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
 
@@ -101,10 +102,35 @@ const NewArrivals = () => {
     if (container) {
       const leftScroll = container.scrollLeft;
       const maxScrollLeft = container.scrollWidth - container.clientWidth;
-      setCanScrollLeft(leftScroll > 10); // enable if scrolled more than 10px
+      setCanScrollLeft(leftScroll > 1); // enable if scrolled more than 10px
       setCanScrollRight(leftScroll < maxScrollLeft - 10);
     }
+
+
+    
+    console.log("Scroll Position:", scrollRef.current.scrollLeft);
+    console.log("Container Width:", scrollRef.current.clientWidth);
+    console.log("Scroll Width:", scrollRef.current.scrollWidth);
   };
+
+
+  const handleMouseDown = (e) => {
+    setisDragging(true);
+    setStartX(e.pageX - scrollRef.current.offsetLeft);
+    setScrollLeft(scrollRef.current.scrollLeft); // ✅ Correct: we're tracking the position for dragging
+
+  }
+
+  const handleMouseMove = (e) =>{
+    if(!isDragging) return;
+    const x =  e.pageX - scrollRef.current.offsetLeft;
+    const walk = x - startX;
+    scrollRef.current.scrollLeft = scrollLeft - walk
+  }
+
+  const handleMouseUporLeave = (e) => {
+    setisDragging(false);
+  }
 
   useEffect(() => {
     const container = scrollRef.current;
@@ -154,7 +180,11 @@ const NewArrivals = () => {
       {/* Scrollable Content */}
       <div
         ref={scrollRef}
-        className="container mx-auto overflow-x-scroll flex space-x-6 relative over"
+        className={`container mx-auto overflow-x-hidden flex space-x-6 relative over ${isDragging ? "cursor-grabbing" : "cursor-grab"} `}
+        onMouseDown={handleMouseDown}
+        onMouseMove ={handleMouseMove}
+        onMouseUp = {handleMouseUporLeave}
+        onMouseLeave = {handleMouseUporLeave}
       >
         {newArrivals.map((product) => (
           <div
@@ -165,6 +195,7 @@ const NewArrivals = () => {
               src={product.images[0]?.url}
               alt={product.images[0]?.altText || product.name}
               className="w-full h-[500px] object-cover rounded-lg"
+              draggable="false"
             />
             <div className="absolute bottom-0 left-0 right-0 bg-opacity-50 backdrop-blur-md text-white p-4 rounded-b-lg">
               <Link to={`/product/${product._id}`} className="block">
