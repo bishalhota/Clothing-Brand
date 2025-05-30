@@ -30,7 +30,9 @@ const [password, setPassword] = useState('')
                 />
             </div>
         </form>
+        
     </div>
+    <div className='w-[500px] '></div>
   </div>
 }
 
