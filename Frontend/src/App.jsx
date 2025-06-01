@@ -2,7 +2,8 @@ import {BrowserRouter,Routes,Route} from 'react-router-dom'
 import UserLayout from './components/Layout/UserLayout'
 import Home from './Pages/Home'
 import Login from './Pages/Login'
-
+import Register from './Pages/Register'
+import Profile from './Pages/Profile'
 
 function App() {
 
@@ -11,9 +12,11 @@ function App() {
       <Routes>
         <Route path='/' element={<UserLayout />}>
           <Route index element={<Home />}></Route>
-          <Route path="profile" element={<Login />} />
+          <Route path="login" element={<Login />} />
+          <Route path="register" element={<Register />} />
+          <Route path="profile" element={<Profile />} />
         </Route>
-        <Route></Route>
+        {/* <Route>Admin Layout</Route> */}
       </Routes>
     </BrowserRouter>
   )
