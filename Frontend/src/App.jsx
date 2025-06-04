@@ -4,6 +4,7 @@ import Home from './Pages/Home'
 import Login from './Pages/Login'
 import Register from './Pages/Register'
 import Profile from './Pages/Profile'
+import CollectionPage from './Pages/CollectionPage'
 
 function App() {
 
@@ -15,6 +16,7 @@ function App() {
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
           <Route path="profile" element={<Profile />} />
+          <Route path="collections/:collection" element={<CollectionPage />}></Route>
         </Route>
         {/* <Route>Admin Layout</Route> */}
       </Routes>

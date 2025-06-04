@@ -34,7 +34,7 @@ const Navbar = () => {
         </div>
         <div className="hidden md:flex space-x-6">
           <Link
-            to="#"
+            to="/collections/all"
             className="text-gray-700 hover:text-black text-sm font-medium uppercase"
           >
             MEN
