@@ -1,18 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 const FilterSidebar = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [filters, setFilters] = useState({
     category: "",
     gender: "",
-    color: "",
+    color: [],
     size: [],
     material: [],
     brand: [],
     minPrice: 0,
     maxPrice: 8000,
   });
+
+  const navigate = useNavigate();
 
   const [priceRange, setPriceRange] = useState([0, 8000]);
 
@@ -63,8 +65,8 @@ const FilterSidebar = () => {
     setFilters({
       category: params.category || "",
       gender: params.gender || "",
-      color: params.color || "",
-      size: params.size ? params.brand.split(",") : [],
+      color: params.color ? params.color.split(",") : [],
+      size: params.size ? params.size.split(",") : [],
       material: params.material ? params.material.split(",") : [],
       brand: params.brand ? params.brand.split(",") : [],
       minPrice: params.minPrice || 0,
@@ -75,8 +77,8 @@ const FilterSidebar = () => {
 
   const handleFilterChange = (e) =>{
     const {name, value, checked, type} = e.target;
-    let newFilters = {...filters};
-
+    let newFilters = {...filters}; //here newFilter stores data as in object form 
+    
     if(type === "checkbox"){
       if(checked){
         newFilters[name] = [...(newFilters[name] || []),value];
@@ -87,12 +89,22 @@ const FilterSidebar = () => {
       newFilters[name] = value;
     }
     setFilters(newFilters)
+    updateURLParams(newFilters);
   }
 
 
 
   const updateURLParams = (newFilters) =>{
-    const params = new URLSearchParams()
+    const params = new URLSearchParams();
+    Object.keys(newFilters).forEach((key)=>{
+      if(Array.isArray(newFilters[key]) && newFilters[key].length > 0){
+        params.append(key,newFilters[key].join(","));
+      }else if (newFilters[key]) {
+        params.append(key,newFilters[key]);
+      }
+    });
+    setSearchParams(params);
+    navigate(`?${params.toString()}`)
   }
 
   return (
@@ -109,6 +121,7 @@ const FilterSidebar = () => {
               name="category"
               value={category}
               onChange={handleFilterChange}
+              checked = {filters.category.includes(category)}
               className="mr-2 h-4 w-4 text-blue-500 focus:ring-blue-400 border-gray-300"
             />
             <span className="text-gray-700">{category}</span>
@@ -126,6 +139,7 @@ const FilterSidebar = () => {
               name="Gender"
               value={Gender}
               onChange={handleFilterChange}
+              checked = {filters.gender.includes(Gender)}
               className="mr-2 h-4 w-4 text-blue-500 focus:ring-blue-400 border-gray-300"
             />
             <span className="text-gray-700">{Gender}</span>
@@ -138,22 +152,24 @@ const FilterSidebar = () => {
         <label className="block text-gray-600 font-medium mb-2">Color</label>
         <div className="gap-2">
           {colors.map((color) => (
-            <div className="space-y-3">
+            <div key={color} className="space-y-3">
               <input
                 type="checkbox"
                 name="category"
                 value={color}
                 onChange={handleFilterChange}
+                checked = {filters.color.includes(color)}
                 className="mr-2 h-4 w-4 text-blue-500 focus:ring-blue-400 border-gray-300"
               />
               <button
-                key={color}
+                
                 name="color"
                 value={color}
                 onClick={handleFilterChange}
-                className="w-4 h-4 rounded-full border border-gray-300 cursor-pointer transition hover:scale=105"
+                className={`w-4 h-4 rounded-full border border-gray-300 cursor-pointer transition hover:scale=105 ${filters.color === color ? "ring-2 ring-blue-500" : ""}`}
                 style={{ backgroundColor: color.toLowerCase() }}
               ></button>
+              <span className=" p-1">{color}</span>
             </div>
           ))}
         </div>
@@ -169,6 +185,7 @@ const FilterSidebar = () => {
               name="size"
               value={size}
               onChange={handleFilterChange}
+              checked={filters.size.includes(size)}
               className="mr-2 h-4 w-4 text-blue-500 focus:ring-blue-400 border-gray-300"
             />
             <span className="text-gray-700">{size}</span>
@@ -187,6 +204,7 @@ const FilterSidebar = () => {
               name="brand"
               value={brand}
               onChange={handleFilterChange}
+              checked={filters.brand.includes(brand)}
               className="mr-2 h-4 w-4 text-blue-500 focus:ring-blue-400 border-gray-300"
             />
             <span className="text-gray-700">{brand}</span>
