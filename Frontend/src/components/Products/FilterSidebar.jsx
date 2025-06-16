@@ -4,8 +4,8 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 const FilterSidebar = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [filters, setFilters] = useState({
-    category: "",
-    gender: "",
+    category: [],
+    gender: [],
     color: [],
     size: [],
     material: [],
@@ -63,8 +63,8 @@ const FilterSidebar = () => {
   useEffect(() => {
     const params = Object.fromEntries([...searchParams]);
     setFilters({
-      category: params.category || "",
-      gender: params.gender || "",
+      category: params.category ? params.category.split(",") : [],
+      gender: params.gender ? params.gender.split(",") : [],
       color: params.color ? params.color.split(",") : [],
       size: params.size ? params.size.split(",") : [],
       material: params.material ? params.material.split(",") : [],
@@ -74,6 +74,12 @@ const FilterSidebar = () => {
     });
     setPriceRange([0, params.maxPrice || 8000]);
   }, [searchParams]);
+
+
+
+  // hey there its new line 
+
+
 
   const handleFilterChange = (e) =>{
     const {name, value, checked, type} = e.target;
@@ -107,6 +113,14 @@ const FilterSidebar = () => {
     navigate(`?${params.toString()}`)
   }
 
+  const handlePriceChange = (e) =>{
+    const newPrice = e.target.value;
+    setPriceRange([0,newPrice]);
+    const newFilters = {...filters ,minPrice:0, maxPrice:newPrice };
+    setFilters(filters);
+    updateURLParams(newFilters);
+  }
+
   return (
     <div className="p-4">
       <h3 className="text-xl font-medium text-gray-800 mb-4">Filter</h3>
@@ -136,7 +150,7 @@ const FilterSidebar = () => {
           <div key={Gender} className="flex items-center mb-1">
             <input
               type="checkbox"
-              name="Gender"
+              name="gender"
               value={Gender}
               onChange={handleFilterChange}
               checked = {filters.gender.includes(Gender)}
@@ -148,28 +162,32 @@ const FilterSidebar = () => {
       </div>
 
       {/* Color */}
-      <div className="mb-6">
+      <div className="mb-6 ">
         <label className="block text-gray-600 font-medium mb-2">Color</label>
         <div className="gap-2">
           {colors.map((color) => (
-            <div key={color} className="space-y-3">
+            <div key={color} className="space-y-3 flex">
               <input
                 type="checkbox"
-                name="category"
+                name="color"
                 value={color}
                 onChange={handleFilterChange}
                 checked = {filters.color.includes(color)}
-                className="mr-2 h-4 w-4 text-blue-500 focus:ring-blue-400 border-gray-300"
+                className="mt-2 mr-2 h-4 w-4 text-blue-500 focus:ring-blue-400 border-gray-300"
               />
-              <button
+              {/* <button
                 
                 name="color"
                 value={color}
                 onClick={handleFilterChange}
                 className={`w-4 h-4 rounded-full border border-gray-300 cursor-pointer transition hover:scale=105 ${filters.color === color ? "ring-2 ring-blue-500" : ""}`}
                 style={{ backgroundColor: color.toLowerCase() }}
-              ></button>
-              <span className=" p-1">{color}</span>
+              ></button> */}
+              <div className="w-4 h-4 rounded-full border border-gray-300 mt-2"
+                style={{backgroundColor:color.toLowerCase()}}
+              ></div>
+              
+              <p className="p-1">{color}</p>
             </div>
           ))}
         </div>
@@ -216,9 +234,9 @@ const FilterSidebar = () => {
       {/* Price filter */}
       <div className="mb-8">
         <label className="block text-gray-600 font-medium mb-2 ">Price Range</label>
-        <input type="range" name="priceRange" min={0} max={8000} className="w-full h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer" />
+        <input type="range" name="priceRange" min={200} max={8000} step={100} value={priceRange[1]} onChange={handlePriceChange} className="w-full h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer" />
         <div className="flex justify-between text-gray-600 mt-2">
-          <span>Rs 100</span>
+          <span>Rs 200</span>
           <span>Rs {priceRange[1]}</span>
         </div>
       </div>
