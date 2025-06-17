@@ -92,6 +92,9 @@ const ProductDetails = () => {
               />
             </div>
           </div>
+
+
+
           {/* Mobile version */}
           <div className="md:hidden flex overscroll-x-scroll space-x-4 mb-4">
             {SelectedProduct.images.map((image, index) => (
@@ -104,6 +107,8 @@ const ProductDetails = () => {
               />
             ))}
           </div>
+
+
           {/* Right Side */}
           <div className="md:w-1/2 md:ml-20">
             <h1 className="text-2xl md:text-3xl font-semibold mb-2">
@@ -111,7 +116,7 @@ const ProductDetails = () => {
             </h1>
             <p className="text-lg text-gray-600 mb-1 line-through">
               {SelectedProduct.originalPrice &&
-                `Rs{selectedProduct.originalPrice}`}
+                `Rs ${SelectedProduct.originalPrice}`}
             </p>
             <p className="text-xl text-gray-500 mb-2">
               Rs{SelectedProduct.price}
@@ -158,7 +163,7 @@ const ProductDetails = () => {
                 </div>
             </div>
 
-            <button className="bg-black text-white py-2 px-6 rounded w-full mb-4 cursor-pointer">ADD TO CART</button>
+            <button className="bg-black text-white py-2 px-6 rounded w-3/4 mb-4 cursor-pointer">ADD TO CART</button>
 
             <div className="mt-10 text-gray-700">
                 <h3 className="text-xl font-bold mb-4 ">Characteristics:</h3>
