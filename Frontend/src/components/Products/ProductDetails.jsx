@@ -94,6 +94,9 @@ const ProductDetails = () => {
           </div>
 
 
+          
+
+
 
           {/* Mobile version */}
           <div className="md:hidden flex overscroll-x-scroll space-x-4 mb-4">
@@ -107,6 +110,9 @@ const ProductDetails = () => {
               />
             ))}
           </div>
+
+
+
 
 
           {/* Right Side */}
