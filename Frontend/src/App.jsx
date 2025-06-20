@@ -11,6 +11,8 @@ import OrderConfirmationPage from './Pages/OrderConfirmationPage'
 import OrderDetailsPage from './Pages/OrderDetailsPage'
 import MyOrdersPage from './Pages/MyOrdersPage'
 import AdminLayout from './components/Admin/AdminLayout'
+import AdminHomePage from './Pages/AdminHomePage'
+import UserManagement from './components/Admin/UserManagement'
 
 function App() {
 
@@ -31,7 +33,10 @@ function App() {
           
         </Route>
         {/* <Route>Admin Layout</Route> */}
-        <Route path="/admin" element={<AdminLayout />}/>
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<AdminHomePage />} />
+          <Route path="users" element={<UserManagement />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   )
