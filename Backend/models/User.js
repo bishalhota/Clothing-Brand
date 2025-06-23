@@ -37,7 +37,7 @@ userSchema.pre("save", async function(next) {
 })
 
 // Password validation with user's entered password
-userSchema.methods.matchedPassword = async function(enteredPassword) {
+userSchema.methods.matchPassword = async function(enteredPassword) {
     return await bcrypt.compare(enteredPassword,this.password);
 }
 
