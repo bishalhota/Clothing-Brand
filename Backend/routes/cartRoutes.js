@@ -166,10 +166,10 @@ router.get("/", async (req, res) => {
 // Merge guest cart into user cat on  login
 //access private
 router.post("/merge", protect, async (req, res) => {
-    const { guestId } = req.body;
+    const {guestId} = req.body;
     try {
         const guestCart = await Cart.findOne({ guestId });
-        const userCart = await cart.findOne({ user: req.user._id });
+        const userCart = await Cart.findOne({ user: req.user._id });
 
         if (guestCart) {
             if (guestCart.products.length === 0) {
@@ -178,7 +178,7 @@ router.post("/merge", protect, async (req, res) => {
 
             if (userCart) {
                 guestCart.products.forEach((guestItem) => {
-                    const productIndex = useCart.products.findIndex(
+                    const productIndex = userCart.products.findIndex(
                         (item) =>
                             item.productId.toString() === guestItem.productId.toString() &&
                             item.size === guestItem.size &&
