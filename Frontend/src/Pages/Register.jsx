@@ -2,13 +2,18 @@ import React from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import register from "../assets/register.webp"; // Assuming you have a login image in assets
+import { registerUser } from "../redux/slices/authSlice";
+import { useDispatch } from "react-redux";
 
 const Register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const handleSubmit = () => {
+const dispatch = useDispatch();
+
+  const handleSubmit = (e) => {
     e.preventDefault();
+    dispatch(registerUser({ name, email, password }));
   };
 
   return (
@@ -31,7 +36,7 @@ const Register = () => {
             <input
               type="text"
               value={name}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => setName(e.target.value)}
               className="w-full p-2 border rounded"
               placeholder="Enter your Name"
             />
