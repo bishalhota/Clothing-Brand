@@ -1,7 +1,15 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-const ProductGrid = ({products}) => {
+const ProductGrid = ({products,loading,error}) => {
+  if(loading){
+    return <p className='text-center'>Loading...</p>
+  }
+
+
+  if(error){
+    return <p className='text-center'>Error fetching products</p>
+  }
   return (
     <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 p-4 mr-6 ml-6 gap-4'>
       {products.map((product,index) =>(
@@ -11,7 +19,7 @@ const ProductGrid = ({products}) => {
                     <img src={product.images[0].url} alt={product.name} className='w-full h-full object-cover rounded-lg'/>
                 </div>
                 <h3 className='text-sm mb-2'>{product.name}</h3>
-                <p className='text-gray-500 font-medium text-sm tracking-tighter'></p>
+                <p className='text-gray-500 font-medium text-sm tracking-tighter'>${product.price}</p>
             </div>
         </Link>
       ))}

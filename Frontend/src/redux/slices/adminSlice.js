@@ -91,7 +91,7 @@ const adminSlice = createSlice({
                 state.users[userIndex] = updatedUser;
             }
         })
-        .addCase(deleteUser,fulfilled, (state,action) =>{
+        .addCase(deleteUser.fulfilled, (state,action) =>{
             state.users = state.users.filter((user) => user._id !== action.payload);
         })
         .addCase(addUser.pending,(state) =>{

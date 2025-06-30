@@ -16,6 +16,7 @@ import UserManagement from './components/Admin/UserManagement'
 import ProductManagement from './components/Admin/ProductManagement'
 import EditProductPage from './components/Admin/EditProductPage'
 import OrderManagement from './components/Admin/OrderManagement'
+import { Toaster } from "sonner";
 
 import { Provider } from 'react-redux';
 import store from './redux/store';
@@ -25,6 +26,7 @@ function App() {
   return (
     <Provider store={store}>
       <BrowserRouter>
+      <Toaster position='top-right' toastOptions={{ duration: 3000 }} />
         <Routes>
           <Route path='/' element={<UserLayout />}>
             <Route index element={<Home />}></Route>
