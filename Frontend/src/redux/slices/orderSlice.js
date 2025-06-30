@@ -8,13 +8,17 @@ export const fetchUserOrders = createAsyncThunk("orders/fetchUserOrders", async 
         const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/orders/my-orders`,{
             headers:{
                 Authorization:`Bearer ${localStorage.getItem("userToken")}`,
+                
             }
         });
+        
         return response.data;
+        
     } catch (error) {
         return rejectWithValue(error.response.data);
     }
 });
+
 
 //Async thunk to fetch order details with specific id
 export const fetchOrderDetails = createAsyncThunk("orders/fetchOrderDetails",async(orderId,{rejectWithValue}) =>{
@@ -39,9 +43,7 @@ const orderSlice = createSlice({
         loading:false,
         error:null,
     },
-    reducers:{
-
-    },
+    reducers:{},
     extraReducers:(builder)=>{
         builder
         .addCase(fetchUserOrders.pending,(state)=>{

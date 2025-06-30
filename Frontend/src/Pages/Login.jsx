@@ -25,7 +25,7 @@ const Login = () => {
 
      useEffect(()=>{
         if(user) {
-            if(cart?.products.length > 0 && guestId) {
+            if(cart?.products?.length > 0 && guestId) {
                 dispatch(mergeCart({guestId,user})).then(()=>{
                     navigate(isCheckoutRedirect ? "/checkout" : "/");
                 })
@@ -33,7 +33,7 @@ const Login = () => {
                 navigate(isCheckoutRedirect ? "/checkout" : "/");
             }
         }
-     },[user ,guestId, cart , navigate,isCheckoutRedirect,dispatch])
+     },[user,guestId, cart, navigate,isCheckoutRedirect,dispatch])
     
     const handleSubmit = (e) => {
         e.preventDefault();

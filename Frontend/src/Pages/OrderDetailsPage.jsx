@@ -1,47 +1,22 @@
 import React, { useState,useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import {fetchOrderDetails} from '../redux/slices/orderSlice';
 
 const OrderDetailsPage = () => {
 
     const { id } = useParams();
-    const [orderDetails, setOrderDetails] = useState(null);
+    const dispatch = useDispatch();
+    const {orderDetails,loading ,error} = useSelector((state) => state.orders);
 
-    useEffect(() => {
-        const mockOrderDetails = {
-            _id: id,
-            createdAt: new Date(),
-            isPaid: true,
-            isDelivered: false,
-            paymentMethod: "PayPal",
-            shippingMethod: "Standard",
-            shippingAddress: { city: "New York", country: "USA" },
-            orderItems: [
-                {
-                    productId: "1",
-                    name: "Jacket",
-                    price: 120,
-                    quantity: 1,
-                    image: "https://picsum.photos/150?random=1",
-                },
-                {
-                    productId: "2",
-                    name: "Full sleeve T-shirt",
-                    price: 135,
-                    quantity: 1,
-                    image: "https://picsum.photos/150?random=2",
-                },
-                {
-                    productId: "3",
-                    name: "Crouchet Shirt",
-                    price: 210,
-                    quantity: 2,
-                    image: "https://picsum.photos/150?random=3",
-                },
-            ],
-        };
-        setOrderDetails(mockOrderDetails);
-    },[id]);
+    useEffect(()=>{
+        dispatch(fetchOrderDetails(id));
+
+    },[dispatch,id]);
+
+    if(loading) return <p>Loading...</p>
+    if(error) return <p>Error fetching order details:{error}</p>
 
 
     return (
@@ -99,7 +74,7 @@ const OrderDetailsPage = () => {
                                             </Link>
                                         </td>
                                         <td className='py-2 px-4'>${item.price}</td>
-                                        <td className='py-2 px-4'>${item.quantity}</td>
+                                        <td className='py-2 px-4'>{item.quantity}</td>
                                         <td className='py-2 px-4'>${item.price * item.quantity}</td>
                                     </tr>
                                 ))}

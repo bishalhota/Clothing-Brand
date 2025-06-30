@@ -8,7 +8,8 @@ const MyOrdersPage = () => {
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { orders,loading,error } = useSelector((state) => state.orders);
+    const { orders, loading, error } = useSelector((state) => state.orders);
+    console.log(orders);
 
     useEffect(()=>{
         dispatch(fetchUserOrders());
@@ -51,7 +52,7 @@ const MyOrdersPage = () => {
                     orders.map((order) =>(
                         <tr key={order._id} onClick={() => handleRowClick(order._id)} className='border-b hover:border-gray-50 cursor-pointer'>
                             <td className='py-2 px-2 sm:py-4 sm:px-4'>
-                                <img src={order.OrderItems[0].image} alt="" className='w-10 h-10 sm:w-12 sm:h-12' object-cover rounded-lg />
+                                <img src={order.orderItems[0].image} alt="" className='w-10 h-10 sm:w-12 sm:h-12' object-cover rounded-lg />
                             </td>
                             <td className='py-2 px-2 sm:py-4 sm:px-4 font-medium text-gray-900 whitespace-nowrap '>#{order._id}</td>
                             <td className='py-2 px-2 sm:py-4 sm:px-4'>
@@ -61,7 +62,7 @@ const MyOrdersPage = () => {
                             <td className='py-2 px-2 sm:py-4 sm:px-4'>
                                 {order.shippingAddress ? `${order.shippingAddress.city}`:"N/A"}
                             </td>
-                            <td className='py-2 px-2 sm:py-4 sm:px-4'>{order.OrderItems.length}</td>
+                            <td className='py-2 px-2 sm:py-4 sm:px-4'>{order.orderItems.length}</td>
                             <td className='py-2 px-2 sm:py-4 sm:px-4'>Rs{order.totalPrice}</td>
                             <td className='py-2 px-2 sm:py-4 sm:px-4'>
                                 <span className={`${order.isPaid ? "bg-green-100 text-green-700":"bg-red-100 text-red-700"} px-2 py-1 rounded-full text-xs sm:text-sm font-medium `}

@@ -21,7 +21,7 @@ const OrderConfirmationPage = (createdAt) => {
             localStorage.removeItem("cart");
 
         }else{
-            navigate("/my-order");
+            navigate("/my-orders");
         }
     },[dispatch,navigate,checkout]);
 

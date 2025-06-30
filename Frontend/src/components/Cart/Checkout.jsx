@@ -32,7 +32,7 @@ const Checkout = () => {
         }
     }, [cart, navigate])
 
-    const handleCreateCheckout = async (e) => {                                        // this will send payment checkout to the backend 
+    const handleCreateCheckout = async(e) => {                                        // this will send payment checkout to the backend 
         e.preventDefault();
         if (cart && cart.products.length > 0) {
             const res = await dispatch(createCheckout({
@@ -52,7 +52,7 @@ const Checkout = () => {
     const handlePaymentSuccess = async (details) => {
 
         try {
-            const response = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/checkout/${checkoutId}/pay`, { paymentStatus: "paid", paymentDetails: details }, {
+            const response = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/checkout/${checkoutId}/pay`, { paymentStatus: "Paid", paymentDetails: details }, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("userToken")}`,
                 }
@@ -75,8 +75,6 @@ const Checkout = () => {
                     Authorization: `Bearer ${localStorage.getItem("userToken")}`,
                 }
             });
-
-            navigate("/order-confirmation");
 
         } catch (error) {
             console.error(error);

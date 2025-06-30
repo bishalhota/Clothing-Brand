@@ -26,6 +26,8 @@ const Profile = () => {
     navigate("/login");
   }
 
+  if(!user) return null;
+
   return (
     <div className='min-h-screen flex flex-col'>
         <div className='flex-grow container mx-auto p-4 md:p-6'>
