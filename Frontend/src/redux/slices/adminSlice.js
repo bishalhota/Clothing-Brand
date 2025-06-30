@@ -12,7 +12,7 @@ export const fetchUsers = createAsyncThunk("admin/fetchUsers",async() =>{
             }
         }
     );
-    response.data;
+    return response.data;
 });
 
 

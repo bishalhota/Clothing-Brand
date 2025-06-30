@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { fetchAdminProducts } from '../redux/slices/adminProductSlice';
 import { fetchAllOrders } from '../redux/slices/adminOrderSlice';
+import { useSelector } from 'react-redux';
 
 const AdminHomePage = () => {
 
@@ -28,7 +29,7 @@ const AdminHomePage = () => {
         <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'>
             <div className="p-4 shadow-md rounded-lg">
                 <h2 className='text-xl font-semibold'>Revenue</h2>
-                <p className='text-2xl'>${totalSales.toFixed(2)}</p>
+                <p className='text-2xl'>${totalSales}</p>
             </div>
             <div className="p-4 shadow-md rounded-lg">
                 <h2 className='text-xl font-semibold'>Total Orders</h2>
