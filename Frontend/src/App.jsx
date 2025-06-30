@@ -17,6 +17,7 @@ import ProductManagement from './components/Admin/ProductManagement'
 import EditProductPage from './components/Admin/EditProductPage'
 import OrderManagement from './components/Admin/OrderManagement'
 import { Toaster } from "sonner";
+import ProtectedRoute from './components/Common/ProtectedRoute'
 
 import { Provider } from 'react-redux';
 import store from './redux/store';
@@ -42,7 +43,7 @@ function App() {
 
           </Route>
           {/* Admin Layout */}
-          <Route path="/admin" element={<AdminLayout />}>
+          <Route path="/admin" element={<ProtectedRoute role="admin"><AdminLayout /></ProtectedRoute>}>
             <Route index element={<AdminHomePage />} />
             <Route path="users" element={<UserManagement />} />
             <Route path='products' element={<ProductManagement />} />

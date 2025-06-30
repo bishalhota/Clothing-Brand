@@ -1,17 +1,23 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { addUser, deleteUser, updateUser } from '../../redux/slices/adminSlice';
 
 const UserManagement = () => {
 
-    const users = [
-        {
-            _id:1232134,
-            name:"John Doe",
-            email:"john@example.com",
-            role:"admin",
-        },
-    ];
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const { user } = useSelector((state) => state.auth);
+    const {users,loading,error} = useSelector((state) => state.admin);
 
+
+    useEffect(()=>{
+        if(user && user.role !== "admin") {                                       //if user not admin then redirect to login page
+            navigate("/login");
+        }
+    },[user,navigate])
+ 
     const [formData,setFormData] = useState({
 
         name:"",
@@ -30,6 +36,8 @@ const UserManagement = () => {
     const handleSubmit = (e) =>{
         console.log(formData);
         e.preventDefault();
+        dispatch(addUser(formData));
+
         setFormData({
             name:"",
             email:"",
@@ -39,18 +47,20 @@ const UserManagement = () => {
     }
 
     const handleRoleChange =(userId,newRole) =>{
-        console.log({id:userId,role:newRole})
+        dispatch(updateUser({id:userId,role:newRole}))
     }
 
     const handleDelteUser =(userId) =>{
         if(window.confirm("Are you sure to delete this user?")){
-            console.log("deleting this user",userId)
+            dispatch(deleteUser(userId))
         }
     }
 
   return (
     <div className="max-w-7xl mx-auto p-6">
         <h2 className='text-2xl font-bold mb-4'>User Management</h2>
+        {loading && <p>Loading....</p>}
+        {error && <p className='text-red-500'>Error fetching users:{error}</p>}
         <div className="p-6 rounded-lg mb-6">
             <h3 className='text-lg font-bold mb-4'>Add New User</h3>
             <form onSubmit={handleSubmit}>
