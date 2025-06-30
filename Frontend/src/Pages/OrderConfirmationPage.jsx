@@ -1,4 +1,8 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { clearCart } from '../redux/slices/cartslice';
+import { useEffect } from 'react';
 
 
 
@@ -6,7 +10,22 @@ import React from 'react'
 
 const OrderConfirmationPage = (createdAt) => {
 
-    const calculateEstimatedDelivery = () =>{
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const { checkout } = useSelector((state) => state.checkout);
+
+    //clear cart when order cconfirmed
+    useEffect(()=>{
+        if(checkout && checkout._id){
+            dispatch(clearCart());
+            localStorage.removeItem("cart");
+
+        }else{
+            navigate("/my-order");
+        }
+    },[dispatch,navigate,checkout]);
+
+    const calculateEstimatedDelivery = (createdAt) =>{
         const orderDate = new Date(createdAt);
         orderDate.setDate(orderDate.getDate() + 10);
         return orderDate.toLocaleDateString();

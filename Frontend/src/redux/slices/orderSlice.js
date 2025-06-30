@@ -26,7 +26,7 @@ export const fetchOrderDetails = createAsyncThunk("orders/fetchOrderDetails",asy
         });
         return response.data;
     } catch (error) {
-        rejectWithValue(error.response.data);
+       return rejectWithValue(error.response.data);
     }
 })
 

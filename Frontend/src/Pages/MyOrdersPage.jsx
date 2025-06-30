@@ -1,51 +1,33 @@
 import React from 'react'
-import { useState, useEffect } from 'react';
+import {  useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { fetchUserOrders } from '../redux/slices/orderSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 const MyOrdersPage = () => {
 
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const { orders,loading,error } = useSelector((state) => state.orders);
 
-    const[orders,setOrders] = useState([]);
+    useEffect(()=>{
+        dispatch(fetchUserOrders());
+        
+    },[dispatch])
 
-    useEffect(() => {
-        setTimeout(()=>{
-            const mockOrders = [
-                {
-                    _id:"12345",
-                    createdAt: new Date(),
-                    shippingAddress:{city:"New York",country:"USA"},
-                    OrderItems:[
-                        {
-                            name:"Product 1",
-                            image:"http://picsum.photos/500/500?random=1",
-                        },
-                    ],
-                    totalPrice: 100,
-                    isPaid:true,
-                },
-                {
-                    _id:"345678",
-                    createdAt: new Date(),
-                    shippingAddress:{city:"New York", country:"USA"},
-                    OrderItems:[
-                        {
-                            name:"Product 2",
-                            image:"http://picsum.photos/500/500?random=2",
-                        },
-                    ],
-                    totalPrice: 100,
-                    isPaid:true,
-                },
-            ];
-            
-            setOrders(mockOrders);;
-        },1000);
-    },[]);
-
+ 
     const handleRowClick = (orderId) =>{
         navigate(`/order/${orderId}`)
     }
+
+    if(loading){
+        return <p className='text-center'>Loading...</p>
+    }
+
+    if(error){
+        return <p className='text-center'>Error fetching orders:{error}</p>
+    }
+
 
 
 
